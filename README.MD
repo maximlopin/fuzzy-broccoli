@@ -30,9 +30,9 @@ kubectl port-forward svc/grafana-svc 3000:3000 & \
     kubectl port-forward svc/app-svc 80:80
 ```
 
-Grafana is now available at localhost:3000, login in admin, password is admin
-Express app is now available at localhost:80
+Grafana is now available at **localhost:3000**, login in **admin**, password is **admin**
+Express app is now available at **localhost:80**
 
-To apply some load to the express app, run ./generate_requests.sh script
+To apply some load to the express app, run ```./generate_requests.sh``` script
+
 You will see the load reflected on grafana charts
-
