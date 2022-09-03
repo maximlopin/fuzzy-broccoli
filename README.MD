@@ -33,4 +33,5 @@ Enable access to the express app and grafana from the host machine
 ### Usage
 
 To apply some load to the express app, run ```./generate_requests.sh``` script in a separate terminal
-Visit localhost:3000 (username=admin, password=admin) in your browser and check Responses chart in General folder,
+
+Visit localhost:3000 (username=admin, password=admin) in your browser and check Responses chart in General folder
