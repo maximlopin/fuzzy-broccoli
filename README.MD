@@ -10,10 +10,8 @@ docker build -t app:latest .
 
 Create configmaps with all required configs
 ```
-kubectl create configmap prometheus-provision \
+kubectl create configmap app-provision \
     --from-file=./prometheus/prometheus.yml \
-
-kubectl create configmap grafana-provision \
     --from-file=./grafana/provisioning/dashboards/dashboard.yml \
     --from-file=./grafana/provisioning/datasources/datasource.yml \
     --from-file=./grafana/dashboard.json
@@ -24,15 +22,12 @@ Apply k8s config
 kubectl apply -f k8s.yml
 ```
 
-Forward ports to enable access from the host machine
+Enable access to the express app and grafana from the host machine
 ```
-kubectl port-forward svc/grafana-svc 3000:3000 & \
-    kubectl port-forward svc/app-svc 80:80
+[terminal #1] kubectl port-forward svc/app 8080:80
+[terminal #2] kubectl port-forward svc/grafana 3000:3000
 ```
 
-Grafana is now available at **localhost:3000**, login in **admin**, password is **admin**
-Express app is now available at **localhost:80**
+To apply some load to the express app, run ```./generate_requests.sh``` script in a separate terminal
 
-To apply some load to the express app, run ```./generate_requests.sh``` script
-
-You will see the load reflected on grafana charts
+Wait for ~60 seconds and check grafana Responses chart in General folder

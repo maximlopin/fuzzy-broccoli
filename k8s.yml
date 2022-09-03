@@ -57,15 +57,18 @@ spec:
         - containerPort: 9090
           protocol: TCP
         volumeMounts:
-        - mountPath: /prometheus
-          name: prometheus-storage
+        - name: app-provision
+          mountPath: /etc/prometheus/prometheus.yml
+          subPath: prometheus.yml
+        - name: prometheus-storage
+          mountPath: /prometheus
       volumes:
+      - name: app-provision
+        configMap:
+          name: app-provision
       - name: prometheus-storage
         persistentVolumeClaim:
           claimName: prometheus-pvc
-      - name: prometheus-provision
-        configMap:
-          name: prometheus-provision
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -89,20 +92,32 @@ spec:
         ports:
         - containerPort: 3000
           protocol: TCP
+        volumeMounts:
+        - name: app-provision
+          mountPath: /etc/grafana/provisioning/dashboards/dashboard.yml
+          subPath: dashboard.yml
+        - name: app-provision
+          mountPath: /etc/grafana/provisioning/datasources/datasource.yml
+          subPath: datasource.yml
+        - name: app-provision
+          mountPath: /var/lib/grafana/dashboards/dashboard.json
+          subPath: dashboard.json
+        - name: grafana-storage
+          mountPath: /var/lib/grafana
       volumes:
       - name: grafana-storage
         persistentVolumeClaim:
           claimName: grafana-pvc
-      - name: grafana-provision
+      - name: app-provision
         configMap:
-          name: grafana-provision
+          name: app-provision
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
     app: app-svc
-  name: app-svc
+  name: app
 spec:
   ports:
   - port: 80
@@ -117,7 +132,7 @@ kind: Service
 metadata:
   labels:
     app: prometheus-svc
-  name: prometheus-svc
+  name: prometheus
 spec:
   ports:
   - port: 9090
@@ -132,7 +147,7 @@ kind: Service
 metadata:
   labels:
     app: grafana-svc
-  name: grafana-svc
+  name: grafana
 spec:
   ports:
   - port: 3000

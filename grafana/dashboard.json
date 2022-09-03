@@ -125,7 +125,7 @@
           "refId": "A"
         }
       ],
-      "title": "Responses pie",
+      "title": "Status pie",
       "type": "piechart"
     },
     {
@@ -246,16 +246,17 @@
           "mode": "single"
         }
       },
+      "pluginVersion": "8.2.0",
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum by (status) (rate(http_requests_total[5m]))",
+          "expr": "sum by (status) (rate(http_requests_total[5m]) * 60)",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
         }
       ],
-      "title": "Responses chart",
+      "title": "RPM",
       "type": "timeseries"
     }
   ],
