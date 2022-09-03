@@ -1,3 +1,5 @@
+### Minikube
+
 Set shell context to minikube's docker daemon
 ```
 eval $(minikube docker-env)
@@ -24,10 +26,11 @@ kubectl apply -f k8s.yml
 
 Enable access to the express app and grafana from the host machine
 ```
-[terminal #1] kubectl port-forward svc/app 8080:80
+[terminal #1] kubectl port-forward svc/app 80:80
 [terminal #2] kubectl port-forward svc/grafana 3000:3000
 ```
 
-To apply some load to the express app, run ```./generate_requests.sh``` script in a separate terminal
+### Usage
 
-Wait for ~60 seconds and check grafana Responses chart in General folder
+To apply some load to the express app, run ```./generate_requests.sh``` script in a separate terminal
+Visit localhost:3000 (username=admin, password=admin) in your browser and check Responses chart in General folder,
