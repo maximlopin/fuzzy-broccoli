@@ -1,0 +1,16 @@
+global:
+  scrape_interval: "1m"
+  external_labels:
+    test_label: test_label_value
+
+scrape_configs:
+  - job_name: app_job
+    static_configs:
+      - targets: ["app:80"]
+    basic_auth:
+      username: admin
+      password: password
+    metric_relabel_configs:
+      - source_labels: ["__name__"]
+        regex: http_requests_total
+        action: "keep"
